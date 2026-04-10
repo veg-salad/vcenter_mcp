@@ -150,9 +150,7 @@ vcenter-mcp/
             │                           list_vm_guest_network_interfaces, get_vm_hardware,
             │                           get_vm_boot, get_vm_cpu, get_vm_memory,
             │                           list_vm_disks, get_vm_disk,
-            │                           list_vm_nics, get_vm_nic,
-            │                           list_vm_cdroms, get_vm_cdrom,
-            │                           list_vm_floppies
+            │                           list_vm_nics, get_vm_nic
             ├── tagging.py              list_tag_categories,
             │                           list_tags, list_attached_tags,
             │                           list_used_tag_categories

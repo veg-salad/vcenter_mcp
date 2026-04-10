@@ -96,9 +96,6 @@ Identifiers returned by `list_*` tools should be used as input to related `get_*
 | `get_vm_disk` | `tools/vm_details.py` | `vm`*, `disk`*, `vcenter_name` | Full detail for a specific virtual disk. |
 | `list_vm_nics` | `tools/vm_details.py` | `vm`*, `vcenter_name` | Virtual NICs attached to a VM: NIC IDs, backing, MAC address, and connection state. |
 | `get_vm_nic` | `tools/vm_details.py` | `vm`*, `nic`*, `vcenter_name` | Full detail for a specific virtual NIC. |
-| `list_vm_cdroms` | `tools/vm_details.py` | `vm`*, `vcenter_name` | CD-ROM devices attached to a VM. |
-| `get_vm_cdrom` | `tools/vm_details.py` | `vm`*, `cdrom`*, `vcenter_name` | Full detail for a specific CD-ROM device. |
-| `list_vm_floppies` | `tools/vm_details.py` | `vm`*, `vcenter_name` | Floppy devices attached to a VM. |
 
 ---
 

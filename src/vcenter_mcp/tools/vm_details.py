@@ -70,21 +70,3 @@ def get_vm_nic(vm: str, nic: str, vcenter_name: str | None = None) -> str:
     """Get a single VM virtual NIC."""
     return json_response(vcenter_get(f"/api/vcenter/vm/{path_id(vm)}/hardware/ethernet/{path_id(nic)}", **resolve_vcenter(vcenter_name)))
 
-
-@mcp.tool()
-def list_vm_cdroms(vm: str, vcenter_name: str | None = None) -> str:
-    """List VM CD-ROM devices."""
-    return json_response(vcenter_get(f"/api/vcenter/vm/{path_id(vm)}/hardware/cdrom", **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
-def get_vm_cdrom(vm: str, cdrom: str, vcenter_name: str | None = None) -> str:
-    """Get a VM CD-ROM device."""
-    return json_response(vcenter_get(f"/api/vcenter/vm/{path_id(vm)}/hardware/cdrom/{path_id(cdrom)}", **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
-def list_vm_floppies(vm: str, vcenter_name: str | None = None) -> str:
-    """List VM floppy devices."""
-    return json_response(vcenter_get(f"/api/vcenter/vm/{path_id(vm)}/hardware/floppy", **resolve_vcenter(vcenter_name)))
-
