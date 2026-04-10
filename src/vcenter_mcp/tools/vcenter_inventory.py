@@ -7,6 +7,7 @@ from typing import Any
 from vcenter_mcp.app import mcp
 from vcenter_mcp.client import vcenter_get
 from vcenter_mcp.registry import json_response, path_id, resolve_vcenter, split_csv
+from vcenter_mcp.vsphere_ws import get_host_detail
 
 
 def _clean_params(values: dict[str, Any]) -> dict[str, Any]:
@@ -106,6 +107,13 @@ def list_hosts(
 
 
 @mcp.tool()
+def get_host(host: str, vcenter_name: str | None = None) -> str:
+    """Get details for a specific physical ESXi host via the vSphere Web Services API."""
+    connection = resolve_vcenter(vcenter_name)
+    return json_response(get_host_detail(host_id=host, **connection))
+
+
+@mcp.tool()
 def list_networks(
     vcenter_name: str | None = None,
     networks: str | None = None,
@@ -185,4 +193,3 @@ def get_vm(vm: str, vcenter_name: str | None = None) -> str:
 def get_vm_power(vm: str, vcenter_name: str | None = None) -> str:
     """Get VM power state."""
     return json_response(vcenter_get(f"/api/vcenter/vm/{path_id(vm)}/power", **resolve_vcenter(vcenter_name)))
-

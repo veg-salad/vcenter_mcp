@@ -51,6 +51,7 @@ Identifiers returned by `list_*` tools should be used as input to related `get_*
 | Tool | Module | Parameters | Description |
 |---|---|---|---|
 | `list_hosts` | `tools/vcenter_inventory.py` | `vcenter_name`, `hosts`, `names`, `clusters`, `datacenters` | All ESXi hosts: ID, name, connection state, power state, and placement. |
+| `get_host` | `tools/vcenter_inventory.py` | `host`*, `vcenter_name` | Full ESXi host detail via the vSphere Web Services API: vendor, model, CPU, memory, runtime state, version, and usage summary. |
 
 ### Networks
 

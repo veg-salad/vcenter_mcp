@@ -135,13 +135,14 @@ vcenter-mcp/
         ├── credentials.py      OS keyring read/write helpers
         ├── registry.py         Inventory loading, host+credential resolver, JSON helper
         ├── client.py           HTTP client: session auth, GET, read-only POST actions
+        ├── vsphere_ws.py       vSphere Web Services helpers for ESXi host detail
         └── tools/
             ├── inventory.py            list_vcenters, get_vcenter_inventory
             ├── vcenter_inventory.py    list_clusters, get_cluster,
             │                           list_datacenters, get_datacenter,
             │                           list_datastores, get_datastore,
             │                           list_folders,
-            │                           list_hosts,
+            │                           list_hosts, get_host,
             │                           list_networks,
             │                           list_resource_pools, get_resource_pool,
             │                           list_vms, get_vm, get_vm_power
@@ -165,6 +166,7 @@ See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/avai
 
 - All tools are **read-only** — no changes are made to your vCenter environment
 - Uses the vCenter REST API at `/api/*` over HTTPS, typically port 443
+- Uses the vSphere Web Services API through vCenter for `get_host`, because REST host detail is not available in your vCenter API surface
 - Authentication uses `POST /api/session` and reuses the session token for tool calls
 - Tag association lookups use documented read-only action-style POST calls
 - If multiple vCenters are configured, specify `vcenter_name` to target the correct instance
