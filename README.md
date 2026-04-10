@@ -163,7 +163,7 @@ See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/avai
 
 - All tools are **read-only** — no changes are made to your vCenter environment
 - Uses the vCenter REST API at `/api/*` over HTTPS, typically port 443
-- Uses the vSphere Web Services API through vCenter for `list_hosts` and `get_host`, because REST host detail coverage is not available in your vCenter API surface
+- Uses the vSphere Web Services API through vCenter for `list_hosts` and `get_host`, because REST host detail coverage is not available in vCenter API surface
 - Cluster window utilization tool behavior: supports `1-30` day windows and hour inputs only when they are multiples of 24 (for example `24 hours`, `168 hours`)
 - Historical utilization output depends on PerformanceManager retention in your vCenter; requested windows may return fewer samples if older data is not retained
 - Authentication uses `POST /api/session` and reuses the session token for tool calls
