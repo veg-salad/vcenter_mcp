@@ -50,7 +50,7 @@ Identifiers returned by `list_*` tools should be used as input to related `get_*
 
 | Tool | Module | Parameters | Description |
 |---|---|---|---|
-| `list_hosts` | `tools/vcenter_inventory.py` | `vcenter_name`, `hosts`, `names`, `clusters`, `datacenters` | All ESXi hosts: ID, name, connection state, power state, and placement. |
+| `list_hosts` | `tools/vcenter_inventory.py` | `vcenter_name`, `hosts`, `names`, `clusters`, `datacenters` | All ESXi hosts via the vSphere Web Services API: ID, name, connection state, power state, and placement. |
 | `get_host` | `tools/vcenter_inventory.py` | `host`*, `vcenter_name` | Full ESXi host detail via the vSphere Web Services API: vendor, model, CPU, memory, runtime state, version, and usage summary. |
 
 ### Networks
@@ -96,24 +96,6 @@ Identifiers returned by `list_*` tools should be used as input to related `get_*
 | `get_vm_disk` | `tools/vm_details.py` | `vm`*, `disk`*, `vcenter_name` | Full detail for a specific virtual disk. |
 | `list_vm_nics` | `tools/vm_details.py` | `vm`*, `vcenter_name` | Virtual NICs attached to a VM: NIC IDs, backing, MAC address, and connection state. |
 | `get_vm_nic` | `tools/vm_details.py` | `vm`*, `nic`*, `vcenter_name` | Full detail for a specific virtual NIC. |
-
----
-
-## Tagging tools — REST API
-
-### Categories
-
-| Tool | Module | Parameters | Description |
-|---|---|---|---|
-| `list_tag_categories` | `tools/tagging.py` | `vcenter_name` | All tag category identifiers registered in vCenter. |
-| `list_used_tag_categories` | `tools/tagging.py` | `used_by_entity`*, `vcenter_name` | Category identifiers currently used by a given subscriber entity. |
-
-### Tags
-
-| Tool | Module | Parameters | Description |
-|---|---|---|---|
-| `list_tags` | `tools/tagging.py` | `vcenter_name` | All tag identifiers registered in vCenter. |
-| `list_attached_tags` | `tools/tagging.py` | `object_type`*, `object_id`*, `vcenter_name` | Tags attached to a given vCenter inventory object. |
 
 ---
 

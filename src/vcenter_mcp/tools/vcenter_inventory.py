@@ -7,7 +7,7 @@ from typing import Any
 from vcenter_mcp.app import mcp
 from vcenter_mcp.client import vcenter_get
 from vcenter_mcp.registry import json_response, path_id, resolve_vcenter, split_csv
-from vcenter_mcp.vsphere_ws import get_host_detail
+from vcenter_mcp.vsphere_ws import get_host_detail, list_hosts_ws
 
 
 def _clean_params(values: dict[str, Any]) -> dict[str, Any]:
@@ -94,16 +94,17 @@ def list_hosts(
     clusters: str | None = None,
     datacenters: str | None = None,
 ) -> str:
-    """List ESXi hosts with optional filters."""
-    params = _clean_params(
-        {
-            "hosts": split_csv(hosts),
-            "names": split_csv(names),
-            "clusters": split_csv(clusters),
-            "datacenters": split_csv(datacenters),
-        }
+    """List ESXi hosts with optional filters via the vSphere Web Services API."""
+    connection = resolve_vcenter(vcenter_name)
+    return json_response(
+        list_hosts_ws(
+            hosts=split_csv(hosts),
+            names=split_csv(names),
+            clusters=split_csv(clusters),
+            datacenters=split_csv(datacenters),
+            **connection,
+        )
     )
-    return json_response(vcenter_get("/api/vcenter/host", params=params, **resolve_vcenter(vcenter_name)))
 
 
 @mcp.tool()

@@ -178,7 +178,6 @@ def main() -> None:
 
     import vcenter_mcp.tools.appliance  # noqa: F401
     import vcenter_mcp.tools.inventory  # noqa: F401
-    import vcenter_mcp.tools.tagging  # noqa: F401
     import vcenter_mcp.tools.vcenter_inventory  # noqa: F401
     import vcenter_mcp.tools.vm_details  # noqa: F401
 

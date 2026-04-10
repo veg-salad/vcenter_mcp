@@ -4,7 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/v/vcenter-mcp)](https://pypi.org/project/vcenter-mcp/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
 
-Ask GitHub Copilot questions about your Broadcom VCF and VMware vCenter environment in plain English — clusters, datacenters, datastores, folders, hosts, networks, resource pools, VMs, guest details, tags, appliance version and time, and more — directly from VS Code.
+Ask GitHub Copilot questions about your Broadcom VCF and VMware vCenter environment in plain English — clusters, datacenters, datastores, folders, hosts, networks, resource pools, VMs, guest details, appliance version and time, and more — directly from VS Code.
 
 Supports **Broadcom VCF vCenter Server Appliance** and **VMware vCenter Server Appliance** — with per-vCenter credentials stored securely in your OS keyring (Windows Credential Manager / macOS Keychain / Linux Secret Service).
 
@@ -104,7 +104,6 @@ Which hosts are in the cluster and what version are they running?
 List all datastores and their free capacity
 Show me the networks in vCenter
 Get guest identity details for VM <vm-id>
-List all tag categories and tags
 Show me the appliance version and time
 ```
 
@@ -114,7 +113,6 @@ Target a specific vCenter by name:
 List all VMs from PROD-VCENTER-1
 Show appliance version for PROD-VCENTER-1
 List all datastores from PROD-VCENTER-2
-Show tags attached to VM <vm-id> in PROD-VCENTER-1
 ```
 
 Copilot calls `list_vcenters` automatically when needed to discover available entries.
@@ -151,9 +149,6 @@ vcenter-mcp/
             │                           get_vm_boot, get_vm_cpu, get_vm_memory,
             │                           list_vm_disks, get_vm_disk,
             │                           list_vm_nics, get_vm_nic
-            ├── tagging.py              list_tag_categories,
-            │                           list_tags, list_attached_tags,
-            │                           list_used_tag_categories
             └── appliance.py            get_appliance_version, get_appliance_time,
                                         get_appliance_time
 ```
@@ -164,9 +159,8 @@ See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/avai
 
 - All tools are **read-only** — no changes are made to your vCenter environment
 - Uses the vCenter REST API at `/api/*` over HTTPS, typically port 443
-- Uses the vSphere Web Services API through vCenter for `get_host`, because REST host detail is not available in your vCenter API surface
+- Uses the vSphere Web Services API through vCenter for `list_hosts` and `get_host`, because REST host detail coverage is not available in your vCenter API surface
 - Authentication uses `POST /api/session` and reuses the session token for tool calls
-- Tag association lookups use documented read-only action-style POST calls
 - If multiple vCenters are configured, specify `vcenter_name` to target the correct instance
 - Transport is **stdio** — the server runs locally and is managed by VS Code
 
