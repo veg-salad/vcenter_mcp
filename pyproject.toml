@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vcenter-mcp"
+version = "0.1.0"
+description = "Read-only Model Context Protocol server for VMware vCenter Server Appliance and VCF-aligned operations"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+readme = "README.md"
+authors = [{ name = "OpenAI Codex" }]
+keywords = ["broadcom", "vcf", "vcenter", "vmware", "mcp", "model-context-protocol", "infrastructure"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: System :: Systems Administration",
+]
+dependencies = [
+  "keyring>=24.0.0",
+  "keyrings.alt>=5.0.0",
+  "mcp[cli]>=1.6.0",
+  "pyyaml>=6.0.0",
+  "requests>=2.31.0",
+  "urllib3>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["build>=1.2.0", "pytest>=8.0.0"]
+
+[project.scripts]
+vcenter-mcp = "vcenter_mcp.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/your-org/vcenter_mcp"
+Repository = "https://github.com/your-org/vcenter_mcp"
+Issues = "https://github.com/your-org/vcenter_mcp/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]

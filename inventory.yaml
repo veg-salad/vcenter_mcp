@@ -1,0 +1,5 @@
+vcenters:
+  - name: SAMPLE-LAB
+    host: vcsa.example.local
+    port: 443
+    verify_ssl: false
