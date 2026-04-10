@@ -88,12 +88,11 @@ def _configure_inventory() -> None:
         if not host:
             _warn("Host is required. Skipping entry.")
             continue
-        port_raw = input("    HTTPS port [443]: ").strip() or "443"
         verify_ssl = input("    Verify SSL certificate? (yes/no) [no]: ").strip().lower() == "yes"
         vcenters.append(
-            {"name": name, "host": host, "port": int(port_raw), "verify_ssl": verify_ssl}
+            {"name": name, "ip_address": host, "verify_ssl": verify_ssl}
         )
-        _ok(f"Added {name} ({host}:{port_raw})")
+        _ok(f"Added {name} ({host})")
 
     if vcenters:
         data["vcenters"] = vcenters

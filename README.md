@@ -61,13 +61,11 @@ Register your instances here. Edit directly or re-run `vcenter-mcp configure`.
 ```yaml
 vcenters:
   - name: PROD-VCENTER-1
-    host: vcsa01.example.local
-    port: 443
+    ip_address: vcsa01.example.local
     verify_ssl: false
 
   - name: PROD-VCENTER-2
-    host: vcsa02.example.local
-    port: 443
+    ip_address: vcsa02.example.local
     verify_ssl: true
 ```
 

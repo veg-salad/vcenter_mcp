@@ -66,8 +66,7 @@ def resolve_vcenter(vcenter_name: str | None = None) -> dict[str, Any]:
             raise ValueError(f"vCenter '{vcenter_name}' not found. Available: {names}")
 
     return {
-        "host": entry["host"],
-        "port": int(entry.get("port", 443)),
+        "host": entry["ip_address"],
         "verify_ssl": bool(entry.get("verify_ssl", False)),
         **get_vcenter_credentials(entry["name"]),
     }

@@ -12,6 +12,7 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 _TIMEOUT_SECONDS = 30
+_HTTPS_PORT = 443
 _SESSION_CACHE: dict[tuple[str, int, str], str] = {}
 _LOCK = threading.Lock()
 
@@ -20,8 +21,8 @@ class VCenterClientError(RuntimeError):
     """Raised when the vCenter API returns an unexpected error."""
 
 
-def _base_url(host: str, port: int) -> str:
-    return f"https://{host}:{port}"
+def _base_url(host: str) -> str:
+    return f"https://{host}:{_HTTPS_PORT}"
 
 
 def _auth_headers(session_token: str) -> dict[str, str]:
@@ -32,9 +33,9 @@ def _auth_headers(session_token: str) -> dict[str, str]:
     }
 
 
-def create_session(*, host: str, port: int, username: str, password: str, verify_ssl: bool) -> str:
+def create_session(*, host: str, username: str, password: str, verify_ssl: bool) -> str:
     """Authenticate to vCenter and return a session token."""
-    cache_key = (host, port, username)
+    cache_key = (host, _HTTPS_PORT, username)
     with _LOCK:
         cached = _SESSION_CACHE.get(cache_key)
     if cached:
@@ -42,7 +43,7 @@ def create_session(*, host: str, port: int, username: str, password: str, verify
 
     try:
         response = requests.post(
-            f"{_base_url(host, port)}/api/session",
+            f"{_base_url(host)}/api/session",
             auth=(username, password),
             headers={"Accept": "application/json"},
             verify=verify_ssl,
@@ -51,10 +52,10 @@ def create_session(*, host: str, port: int, username: str, password: str, verify
         response.raise_for_status()
     except requests.exceptions.SSLError as exc:
         raise VCenterClientError(
-            f"SSL error while connecting to {host}:{port}. Enable verification only with trusted certificates."
+            f"SSL error while connecting to {host}:{_HTTPS_PORT}. Enable verification only with trusted certificates."
         ) from exc
     except requests.exceptions.ConnectionError as exc:
-        raise VCenterClientError(f"Cannot connect to {host}:{port}. Verify the vCenter host and port.") from exc
+        raise VCenterClientError(f"Cannot connect to {host}:{_HTTPS_PORT}. Verify the vCenter host is reachable.") from exc
     except requests.exceptions.HTTPError as exc:
         status = exc.response.status_code if exc.response is not None else "unknown"
         body = exc.response.text if exc.response is not None else ""
@@ -73,7 +74,6 @@ def vcenter_request(
     params: Mapping[str, Any] | None = None,
     json_body: Any = None,
     host: str,
-    port: int,
     username: str,
     password: str,
     verify_ssl: bool,
@@ -84,7 +84,6 @@ def vcenter_request(
 
     token = create_session(
         host=host,
-        port=port,
         username=username,
         password=password,
         verify_ssl=verify_ssl,
@@ -93,7 +92,7 @@ def vcenter_request(
     request_params = {key: value for key, value in (params or {}).items() if value is not None}
     request_kwargs = {
         "method": method,
-        "url": f"{_base_url(host, port)}{path}",
+        "url": f"{_base_url(host)}{path}",
         "headers": _auth_headers(token),
         "params": request_params,
         "json": json_body,
@@ -105,11 +104,10 @@ def vcenter_request(
         response = requests.request(**request_kwargs)
         if response.status_code == 401:
             with _LOCK:
-                _SESSION_CACHE.pop((host, port, username), None)
+                _SESSION_CACHE.pop((host, _HTTPS_PORT, username), None)
             request_kwargs["headers"] = _auth_headers(
                 create_session(
                     host=host,
-                    port=port,
                     username=username,
                     password=password,
                     verify_ssl=verify_ssl,
@@ -118,9 +116,9 @@ def vcenter_request(
             response = requests.request(**request_kwargs)
         response.raise_for_status()
     except requests.exceptions.SSLError as exc:
-        raise VCenterClientError(f"SSL error while calling {path} on {host}:{port}.") from exc
+        raise VCenterClientError(f"SSL error while calling {path} on {host}:{_HTTPS_PORT}.") from exc
     except requests.exceptions.ConnectionError as exc:
-        raise VCenterClientError(f"Connection error while calling {path} on {host}:{port}.") from exc
+        raise VCenterClientError(f"Connection error while calling {path} on {host}:{_HTTPS_PORT}.") from exc
     except requests.exceptions.HTTPError as exc:
         status = exc.response.status_code if exc.response is not None else "unknown"
         body = exc.response.text if exc.response is not None else ""
