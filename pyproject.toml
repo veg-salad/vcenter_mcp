@@ -9,7 +9,7 @@ description = "Read-only Model Context Protocol server for VMware vCenter Server
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 readme = "README.md"
-authors = [{ name = "OpenAI Codex" }]
+authors = [{ name = "veg-salad" }]
 keywords = ["broadcom", "vcf", "vcenter", "vmware", "mcp", "model-context-protocol", "infrastructure"]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -39,9 +39,9 @@ dev = ["build>=1.2.0"]
 vcenter-mcp = "vcenter_mcp.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/your-org/vcenter_mcp"
-Repository = "https://github.com/your-org/vcenter_mcp"
-Issues = "https://github.com/your-org/vcenter_mcp/issues"
+Homepage = "https://github.com/veg-salad/vcenter_mcp"
+Repository = "https://github.com/veg-salad/vcenter_mcp"
+Issues = "https://github.com/veg-salad/vcenter_mcp/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
