@@ -25,6 +25,10 @@ Identifiers returned by `list_*` tools should be used as input to related `get_*
 |---|---|---|---|
 | `list_clusters` | `tools/vcenter_inventory.py` | `vcenter_name`, `clusters`, `datacenters` | All clusters: cluster ID, name, HA/DRS state, inventory placement. |
 | `get_cluster` | `tools/vcenter_inventory.py` | `cluster`*, `vcenter_name` | Full cluster detail: name, DRS, HA, distributed switch and inventory references. |
+| `get_cluster_resource_utilization_ws` | `tools/vcenter_inventory.py` | `cluster`*, `vcenter_name` | Cluster utilization via the vSphere Web Services API: CPU, memory, storage usage and IOPS metrics from PerformanceManager. |
+| `get_cluster_cpu_memory_utilization_period_ws` | `tools/vcenter_inventory.py` | `cluster`*, `days`, `vcenter_name` | Time-bound cluster CPU/memory utilization via Web Services (defaults to 5 days): avg/min/max usage and utilization percentages. |
+| `get_cluster_cpu_memory_daily_rollup_ws` | `tools/vcenter_inventory.py` | `cluster`*, `days`, `vcenter_name` | Per-day CPU/memory utilization rollups over a time window (defaults to 5 days): daily avg/min/max and utilization percentages. |
+| `get_cluster_cpu_memory_utilization_window_ws` | `tools/vcenter_inventory.py` | `cluster`*, `window`, `per_day`, `vcenter_name` | Natural-language window tool for CPU/memory utilization. Examples: `window="24 hours"`, `window="4 days"`, `window="7 days"` with `per_day=true` for per-day averages. Limits: `1-30` days; hour values must be multiples of 24. Output depends on vCenter PerformanceManager retention and may include fewer samples than requested. |
 
 ### Datacenters
 
@@ -72,7 +76,6 @@ Identifiers returned by `list_*` tools should be used as input to related `get_*
 |---|---|---|---|
 | `list_vms` | `tools/vcenter_inventory.py` | `vcenter_name`, `vms`, `names`, `power_states`, `hosts`, `clusters`, `folders`, `datacenters` | All VMs: ID, name, power state, guest OS, CPU, memory, and placement. |
 | `get_vm` | `tools/vcenter_inventory.py` | `vm`*, `vcenter_name` | Full VM summary: name, power state, guest OS, hardware version, placement, and boot status. |
-| `get_vm_power` | `tools/vcenter_inventory.py` | `vm`*, `vcenter_name` | Current VM power state. |
 
 ## VM Detail tools — REST API
 

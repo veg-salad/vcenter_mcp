@@ -137,13 +137,17 @@ vcenter-mcp/
         └── tools/
             ├── inventory.py            list_vcenters, get_vcenter_inventory
             ├── vcenter_inventory.py    list_clusters, get_cluster,
+            │                           get_cluster_resource_utilization_ws,
+            │                           get_cluster_cpu_memory_utilization_period_ws,
+            │                           get_cluster_cpu_memory_daily_rollup_ws,
+            │                           get_cluster_cpu_memory_utilization_window_ws,
             │                           list_datacenters, get_datacenter,
             │                           list_datastores, get_datastore,
             │                           list_folders,
             │                           list_hosts, get_host,
             │                           list_networks,
             │                           list_resource_pools, get_resource_pool,
-            │                           list_vms, get_vm, get_vm_power
+            │                           list_vms, get_vm
             ├── vm_details.py           get_vm_guest_identity, list_vm_guest_local_filesystems,
             │                           list_vm_guest_network_interfaces, get_vm_hardware,
             │                           get_vm_boot, get_vm_cpu, get_vm_memory,
@@ -160,6 +164,8 @@ See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/avai
 - All tools are **read-only** — no changes are made to your vCenter environment
 - Uses the vCenter REST API at `/api/*` over HTTPS, typically port 443
 - Uses the vSphere Web Services API through vCenter for `list_hosts` and `get_host`, because REST host detail coverage is not available in your vCenter API surface
+- Cluster window utilization tool behavior: supports `1-30` day windows and hour inputs only when they are multiples of 24 (for example `24 hours`, `168 hours`)
+- Historical utilization output depends on PerformanceManager retention in your vCenter; requested windows may return fewer samples if older data is not retained
 - Authentication uses `POST /api/session` and reuses the session token for tool calls
 - If multiple vCenters are configured, specify `vcenter_name` to target the correct instance
 - Transport is **stdio** — the server runs locally and is managed by VS Code

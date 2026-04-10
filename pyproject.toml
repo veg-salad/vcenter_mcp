@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vcenter-mcp"
-version = "0.1.0"
-description = "Read-only Model Context Protocol server for VMware vCenter Server Appliance and VCF-aligned operations"
+version = "0.1.2"
+description = "MCP Server for Broadcom VCF vCenter Server Appliance."
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 readme = "README.md"
