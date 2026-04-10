@@ -65,8 +65,14 @@ def resolve_vcenter(vcenter_name: str | None = None) -> dict[str, Any]:
         if entry is None:
             raise ValueError(f"vCenter '{vcenter_name}' not found. Available: {names}")
 
+    host = (entry.get("fqdn") or "").strip() or (entry.get("ip_address") or "").strip()
+    if not host:
+        raise ValueError(
+            f"vCenter '{entry['name']}' must define either 'fqdn' or 'ip_address' in inventory.yaml."
+        )
+
     return {
-        "host": entry["ip_address"],
+        "host": host,
         "verify_ssl": bool(entry.get("verify_ssl", False)),
         **get_vcenter_credentials(entry["name"]),
     }

@@ -61,15 +61,18 @@ Register your instances here. Edit directly or re-run `vcenter-mcp configure`.
 ```yaml
 vcenters:
   - name: PROD-VCENTER-1
-    ip_address: vcsa01.example.local
+    fqdn: vcsa01.example.local
+    ip_address: 192.168.1.10
     verify_ssl: false
 
   - name: PROD-VCENTER-2
-    ip_address: vcsa02.example.local
+    fqdn: vcsa02.example.local
+    ip_address: 192.168.1.11
     verify_ssl: true
 ```
 
 - `name` — label used in prompts and tool parameters (`vcenter_name`)
+- `fqdn` or `ip_address` — at least one is required; if both are provided, `fqdn` is preferred
 - Single entry → selected automatically; multiple entries → specify the name in your prompt
 
 ### VS Code — `.vscode/mcp.json`

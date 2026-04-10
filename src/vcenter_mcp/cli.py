@@ -84,15 +84,21 @@ def _configure_inventory() -> None:
         if any(entry["name"].lower() == name.lower() for entry in vcenters):
             _warn(f"'{name}' already exists in inventory.yaml")
             continue
-        host = input(f"    Host/IP for '{name}': ").strip()
-        if not host:
-            _warn("Host is required. Skipping entry.")
+        fqdn = input(f"    FQDN for '{name}' [Enter to skip]: ").strip()
+        ip_address = input(f"    IP address for '{name}' [Enter to skip]: ").strip()
+        if not fqdn and not ip_address:
+            _warn("Either FQDN or IP address is required. Skipping entry.")
             continue
         verify_ssl = input("    Verify SSL certificate? (yes/no) [no]: ").strip().lower() == "yes"
         vcenters.append(
-            {"name": name, "ip_address": host, "verify_ssl": verify_ssl}
+            {
+                "name": name,
+                "fqdn": fqdn,
+                "ip_address": ip_address,
+                "verify_ssl": verify_ssl,
+            }
         )
-        _ok(f"Added {name} ({host})")
+        _ok(f"Added {name} ({fqdn or ip_address})")
 
     if vcenters:
         data["vcenters"] = vcenters
