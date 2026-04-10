@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vcenter-mcp"
-version = "0.1.3"
+version = "0.1.4"
 description = "MCP Server for Broadcom VCF vCenter Server Appliance."
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 readme = "README.md"
-authors = [{ name = "veg-salad" }]
+authors = [{ name = "Areen Agrawal" }]
 keywords = ["broadcom", "vcf", "vcenter", "vmware", "mcp", "model-context-protocol", "infrastructure"]
 classifiers = [
   "Intended Audience :: Developers",
