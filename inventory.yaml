@@ -1,5 +1,0 @@
-vcenters:
-  - name: SAMPLE-LAB
-    fqdn: vcsa.example.local
-    ip_address: 192.168.1.10
-    verify_ssl: false
