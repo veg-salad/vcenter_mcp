@@ -4,7 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/v/vcenter-mcp)](https://pypi.org/project/vcenter-mcp/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
 
-Ask GitHub Copilot questions about your Broadcom VCF and VMware vCenter environment in plain English — clusters, datacenters, datastores, folders, hosts, networks, resource pools, VMs, guest customization specs, tags, appliance services, health, updates, and more — directly from VS Code.
+Ask GitHub Copilot questions about your Broadcom VCF and VMware vCenter environment in plain English — clusters, datacenters, datastores, folders, hosts, networks, resource pools, VMs, guest details, tags, appliance version and time, and more — directly from VS Code.
 
 Supports **Broadcom VCF vCenter Server Appliance** and **VMware vCenter Server Appliance** — with per-vCenter credentials stored securely in your OS keyring (Windows Credential Manager / macOS Keychain / Linux Secret Service).
 
@@ -104,10 +104,8 @@ Which hosts are in the cluster and what version are they running?
 List all datastores and their free capacity
 Show me the networks in vCenter
 Get guest identity details for VM <vm-id>
-List all customization specifications
-Show me appliance services and health
-Are there any pending appliance updates?
 List all tag categories and tags
+Show me the appliance version and time
 ```
 
 Target a specific vCenter by name:
@@ -139,38 +137,26 @@ vcenter-mcp/
         ├── client.py           HTTP client: session auth, GET, read-only POST actions
         └── tools/
             ├── inventory.py            list_vcenters, get_vcenter_inventory
-            ├── vcenter_inventory.py    list_clusters, get_cluster, get_cluster_evc_mode,
+            ├── vcenter_inventory.py    list_clusters, get_cluster,
             │                           list_datacenters, get_datacenter,
-            │                           list_datastores, get_datastore, get_datastore_default_policy,
-            │                           list_folders, get_folder,
-            │                           list_hosts, get_host,
-            │                           list_networks, get_network,
+            │                           list_datastores, get_datastore,
+            │                           list_folders,
+            │                           list_hosts,
+            │                           list_networks,
             │                           list_resource_pools, get_resource_pool,
-            │                           list_vms, get_vm, get_vm_power,
-            │                           list_guest_customization_specs, get_guest_customization_spec,
-            │                           list_topology_nodes, get_topology_replication_status
+            │                           list_vms, get_vm, get_vm_power
             ├── vm_details.py           get_vm_guest_identity, list_vm_guest_local_filesystems,
             │                           list_vm_guest_network_interfaces, get_vm_hardware,
             │                           get_vm_boot, get_vm_cpu, get_vm_memory,
             │                           list_vm_disks, get_vm_disk,
             │                           list_vm_nics, get_vm_nic,
             │                           list_vm_cdroms, get_vm_cdrom,
-            │                           list_vm_floppies, get_vm_floppy,
-            │                           list_vm_scsi_adapters, get_vm_scsi_adapter,
-            │                           list_vm_sata_adapters, get_vm_sata_adapter,
-            │                           list_vm_nvme_adapters, get_vm_nvme_adapter
-            ├── tagging.py              list_tag_categories, get_tag_category,
-            │                           list_tags, get_tag, list_attached_tags,
-            │                           list_attached_objects, list_used_tag_categories
+            │                           list_vm_floppies
+            ├── tagging.py              list_tag_categories,
+            │                           list_tags, list_attached_tags,
+            │                           list_used_tag_categories
             └── appliance.py            get_appliance_version, get_appliance_time,
-                                        get_appliance_timezone, get_appliance_ntp,
-                                        get_appliance_update, get_appliance_update_pending,
-                                        list_appliance_services, get_appliance_service,
-                                        get_appliance_health, get_appliance_health_cpu,
-                                        get_appliance_health_memory, get_appliance_health_storage,
-                                        get_appliance_health_swap,
-                                        list_appliance_network_interfaces, get_appliance_network_interface,
-                                        list_appliance_local_accounts, get_appliance_local_account
+                                        get_appliance_time
 ```
 
 See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/available_tools.md) for the full tool reference including parameters, return values, and source modules.

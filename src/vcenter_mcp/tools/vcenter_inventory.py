@@ -27,12 +27,6 @@ def get_cluster(cluster: str, vcenter_name: str | None = None) -> str:
 
 
 @mcp.tool()
-def get_cluster_evc_mode(cluster: str, vcenter_name: str | None = None) -> str:
-    """Get the configured EVC mode for a specific cluster."""
-    return json_response(vcenter_get(f"/api/vcenter/cluster/{path_id(cluster)}/evc-mode", **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
 def list_datacenters(vcenter_name: str | None = None, datacenters: str | None = None, folders: str | None = None) -> str:
     """List datacenters visible in vCenter."""
     params = _clean_params({"datacenters": split_csv(datacenters), "folders": split_csv(folders)})
@@ -72,12 +66,6 @@ def get_datastore(datastore: str, vcenter_name: str | None = None) -> str:
 
 
 @mcp.tool()
-def get_datastore_default_policy(datastore: str, vcenter_name: str | None = None) -> str:
-    """Get the datastore default storage policy."""
-    return json_response(vcenter_get(f"/api/vcenter/datastore/{path_id(datastore)}/default-policy", **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
 def list_folders(
     vcenter_name: str | None = None,
     folders: str | None = None,
@@ -95,12 +83,6 @@ def list_folders(
         }
     )
     return json_response(vcenter_get("/api/vcenter/folder", params=params, **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
-def get_folder(folder: str, vcenter_name: str | None = None) -> str:
-    """Get folder details."""
-    return json_response(vcenter_get(f"/api/vcenter/folder/{path_id(folder)}", **resolve_vcenter(vcenter_name)))
 
 
 @mcp.tool()
@@ -124,12 +106,6 @@ def list_hosts(
 
 
 @mcp.tool()
-def get_host(host: str, vcenter_name: str | None = None) -> str:
-    """Get details for a specific ESXi host."""
-    return json_response(vcenter_get(f"/api/vcenter/host/{path_id(host)}", **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
 def list_networks(
     vcenter_name: str | None = None,
     networks: str | None = None,
@@ -145,12 +121,6 @@ def list_networks(
         }
     )
     return json_response(vcenter_get("/api/vcenter/network", params=params, **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
-def get_network(network: str, vcenter_name: str | None = None) -> str:
-    """Get details for a specific network."""
-    return json_response(vcenter_get(f"/api/vcenter/network/{path_id(network)}", **resolve_vcenter(vcenter_name)))
 
 
 @mcp.tool()
@@ -216,26 +186,3 @@ def get_vm_power(vm: str, vcenter_name: str | None = None) -> str:
     """Get VM power state."""
     return json_response(vcenter_get(f"/api/vcenter/vm/{path_id(vm)}/power", **resolve_vcenter(vcenter_name)))
 
-
-@mcp.tool()
-def list_guest_customization_specs(vcenter_name: str | None = None) -> str:
-    """List guest customization specifications."""
-    return json_response(vcenter_get("/api/vcenter/guest/customization-specs", **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
-def get_guest_customization_spec(name: str, vcenter_name: str | None = None) -> str:
-    """Get a guest customization specification by name."""
-    return json_response(vcenter_get(f"/api/vcenter/guest/customization-specs/{path_id(name)}", **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
-def list_topology_nodes(vcenter_name: str | None = None) -> str:
-    """List vCenter topology nodes."""
-    return json_response(vcenter_get("/api/vcenter/topology/nodes", **resolve_vcenter(vcenter_name)))
-
-
-@mcp.tool()
-def get_topology_replication_status(vcenter_name: str | None = None) -> str:
-    """Get topology replication status."""
-    return json_response(vcenter_get("/api/vcenter/topology/replication-status", **resolve_vcenter(vcenter_name)))
