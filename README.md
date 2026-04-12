@@ -1,7 +1,7 @@
 # vcenter-mcp
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![PyPI](https://img.shields.io/pypi/v/vcenter-mcp)](https://pypi.org/project/vcenter-mcp/)
+[![PyPI](https://img.shields.io/pypi/v/vcenter-mcp?cacheSeconds=300)](https://pypi.org/project/vcenter-mcp/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
 
 Ask GitHub Copilot questions about your Broadcom VCF and VMware vCenter environment in plain English — clusters, datacenters, datastores, folders, hosts, networks, resource pools, VMs, guest details, appliance version and time, and more — directly from VS Code.
