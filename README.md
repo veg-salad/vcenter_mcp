@@ -124,6 +124,7 @@ vcenter-mcp/
 ├── inventory.yaml              vCenter registry (user-generated)
 ├── pyproject.toml              Package metadata and dependencies
 ├── available_tools.md          Full tool reference
+├── SECURITY_POSTURE.md         Security posture, cautions, and operational guidance
 └── src/
     └── vcenter_mcp/
         ├── __init__.py
@@ -132,7 +133,8 @@ vcenter-mcp/
         ├── server.py           Thin wrapper delegating to cli.main()
         ├── credentials.py      OS keyring read/write helpers
         ├── registry.py         Inventory loading, host+credential resolver, JSON helper
-        ├── client.py           HTTP client: session auth, GET, read-only POST actions
+        ├── client.py           HTTP client: session auth and policy-validated GET requests
+        ├── security.py         Central security policy, limits, and startup config validation
         ├── vsphere_ws.py       vSphere Web Services helpers for ESXi host detail
         └── tools/
             ├── inventory.py            list_vcenters, get_vcenter_inventory
