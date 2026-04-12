@@ -3,8 +3,12 @@
 import logging
 
 from mcp.server.fastmcp import FastMCP
+from vcenter_mcp.security import get_security_config
 
 logging.getLogger("mcp").setLevel(logging.WARNING)
+
+# Validate security configuration once at startup so misconfiguration fails fast.
+get_security_config()
 
 mcp = FastMCP(
     "vcenter-mcp",

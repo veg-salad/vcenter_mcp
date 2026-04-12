@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import os
-
 try:
     import keyring
 except ImportError as exc:
@@ -24,31 +22,22 @@ def _set(key: str, value: str) -> None:
 
 
 def get_vcenter_credentials(vcenter_name: str) -> dict[str, object]:
-    """Return username, password, and verify_ssl settings for a vCenter."""
+    """Return username and password from OS keyring for a vCenter."""
     name = (vcenter_name or "").strip()
-    username = (
-        _get(f"vcenter.{name}.username")
-        or _get("vcenter.default.username")
-        or os.environ.get("VCENTER_USERNAME", "")
-    )
-    password = (
-        _get(f"vcenter.{name}.password")
-        or _get("vcenter.default.password")
-        or os.environ.get("VCENTER_PASSWORD", "")
-    )
-    verify_ssl_raw = (
-        _get(f"vcenter.{name}.verify_ssl")
-        or _get("vcenter.default.verify_ssl")
-        or os.environ.get("VCENTER_VERIFY_SSL", "false")
-    )
-    if not username:
+    username = _get(f"vcenter.{name}.username") or _get("vcenter.default.username") or ""
+    password = _get(f"vcenter.{name}.password") or _get("vcenter.default.password") or ""
+
+    username = username.strip()
+    if not username or not password:
         raise EnvironmentError(
             f"No vCenter credentials found for '{name}'. Run 'vcenter-mcp configure' first."
         )
+    if any(ord(ch) < 32 for ch in username):
+        raise EnvironmentError(f"Stored username for '{name}' contains invalid control characters.")
+
     return {
         "username": username,
         "password": password,
-        "verify_ssl": verify_ssl_raw.lower() == "true",
     }
 
 
@@ -56,9 +45,13 @@ def store_vcenter_credentials(
     vcenter_name: str,
     username: str,
     password: str,
-    verify_ssl: bool = False,
 ) -> None:
     name = vcenter_name or "default"
-    _set(f"vcenter.{name}.username", username)
+    cleaned_username = (username or "").strip()
+    if not cleaned_username or not password:
+        raise ValueError("Username and password are required for keyring storage.")
+    if any(ord(ch) < 32 for ch in cleaned_username):
+        raise ValueError("Username cannot contain control characters.")
+
+    _set(f"vcenter.{name}.username", cleaned_username)
     _set(f"vcenter.{name}.password", password)
-    _set(f"vcenter.{name}.verify_ssl", "true" if verify_ssl else "false")

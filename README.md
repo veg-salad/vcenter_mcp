@@ -170,6 +170,10 @@ See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/avai
 - If multiple vCenters are configured, specify `vcenter_name` to target the correct instance
 - Transport is **stdio** — the server runs locally and is managed by VS Code
 
+## Security
+
+See `SECURITY_POSTURE.md` for current security controls, hardening behavior, and operational cautions.
+
 ## Disclaimer
 
 This is an independent, community-built project and is **not an official Broadcom or VMware product**. It is not affiliated with, endorsed by, or supported by Broadcom Inc. or VMware by Broadcom in any way. VMware, vSphere, vCenter, and VCF are trademarks of their respective owners.

@@ -8,6 +8,7 @@ from typing import Any
 from vcenter_mcp.app import mcp
 from vcenter_mcp.client import vcenter_get
 from vcenter_mcp.registry import json_response, path_id, resolve_vcenter, split_csv
+from vcenter_mcp.security import guard_tool
 from vcenter_mcp.vsphere_ws import (
     get_cluster_cpu_memory_utilization_daily_rollup,
     get_cluster_cpu_memory_utilization_period,
@@ -49,6 +50,7 @@ def _window_to_days(window: str) -> int:
 
 
 @mcp.tool()
+@guard_tool("list_clusters")
 def list_clusters(vcenter_name: str | None = None, clusters: str | None = None, datacenters: str | None = None) -> str:
     """List vCenter clusters, optionally filtered by cluster IDs or datacenter IDs."""
     params = _clean_params({"clusters": split_csv(clusters), "datacenters": split_csv(datacenters)})
@@ -56,12 +58,14 @@ def list_clusters(vcenter_name: str | None = None, clusters: str | None = None, 
 
 
 @mcp.tool()
+@guard_tool("get_cluster")
 def get_cluster(cluster: str, vcenter_name: str | None = None) -> str:
     """Get details for a specific cluster."""
     return json_response(vcenter_get(f"/api/vcenter/cluster/{path_id(cluster)}", **resolve_vcenter(vcenter_name)))
 
 
 @mcp.tool()
+@guard_tool("get_cluster_resource_utilization_ws")
 def get_cluster_resource_utilization_ws(cluster: str, vcenter_name: str | None = None) -> str:
     """Get cluster CPU, memory, storage, and IOPS utilization via the vSphere Web Services API."""
     connection = resolve_vcenter(vcenter_name)
@@ -69,6 +73,7 @@ def get_cluster_resource_utilization_ws(cluster: str, vcenter_name: str | None =
 
 
 @mcp.tool()
+@guard_tool("get_cluster_cpu_memory_utilization_period_ws")
 def get_cluster_cpu_memory_utilization_period_ws(
     cluster: str,
     days: int = 5,
@@ -86,6 +91,7 @@ def get_cluster_cpu_memory_utilization_period_ws(
 
 
 @mcp.tool()
+@guard_tool("get_cluster_cpu_memory_daily_rollup_ws")
 def get_cluster_cpu_memory_daily_rollup_ws(
     cluster: str,
     days: int = 5,
@@ -103,6 +109,7 @@ def get_cluster_cpu_memory_daily_rollup_ws(
 
 
 @mcp.tool()
+@guard_tool("get_cluster_cpu_memory_utilization_window_ws")
 def get_cluster_cpu_memory_utilization_window_ws(
     cluster: str,
     window: str = "24 hours",
@@ -135,6 +142,7 @@ def get_cluster_cpu_memory_utilization_window_ws(
 
 
 @mcp.tool()
+@guard_tool("list_datacenters")
 def list_datacenters(vcenter_name: str | None = None, datacenters: str | None = None, folders: str | None = None) -> str:
     """List datacenters visible in vCenter."""
     params = _clean_params({"datacenters": split_csv(datacenters), "folders": split_csv(folders)})
@@ -142,12 +150,14 @@ def list_datacenters(vcenter_name: str | None = None, datacenters: str | None = 
 
 
 @mcp.tool()
+@guard_tool("get_datacenter")
 def get_datacenter(datacenter: str, vcenter_name: str | None = None) -> str:
     """Get datacenter details."""
     return json_response(vcenter_get(f"/api/vcenter/datacenter/{path_id(datacenter)}", **resolve_vcenter(vcenter_name)))
 
 
 @mcp.tool()
+@guard_tool("list_datastores")
 def list_datastores(
     vcenter_name: str | None = None,
     datastores: str | None = None,
@@ -168,12 +178,14 @@ def list_datastores(
 
 
 @mcp.tool()
+@guard_tool("get_datastore")
 def get_datastore(datastore: str, vcenter_name: str | None = None) -> str:
     """Get datastore details."""
     return json_response(vcenter_get(f"/api/vcenter/datastore/{path_id(datastore)}", **resolve_vcenter(vcenter_name)))
 
 
 @mcp.tool()
+@guard_tool("list_folders")
 def list_folders(
     vcenter_name: str | None = None,
     folders: str | None = None,
@@ -194,6 +206,7 @@ def list_folders(
 
 
 @mcp.tool()
+@guard_tool("list_hosts")
 def list_hosts(
     vcenter_name: str | None = None,
     hosts: str | None = None,
@@ -215,6 +228,7 @@ def list_hosts(
 
 
 @mcp.tool()
+@guard_tool("get_host")
 def get_host(host: str, vcenter_name: str | None = None) -> str:
     """Get details for a specific physical ESXi host via the vSphere Web Services API."""
     connection = resolve_vcenter(vcenter_name)
@@ -222,6 +236,7 @@ def get_host(host: str, vcenter_name: str | None = None) -> str:
 
 
 @mcp.tool()
+@guard_tool("list_networks")
 def list_networks(
     vcenter_name: str | None = None,
     networks: str | None = None,
@@ -240,6 +255,7 @@ def list_networks(
 
 
 @mcp.tool()
+@guard_tool("list_resource_pools")
 def list_resource_pools(
     vcenter_name: str | None = None,
     resource_pools: str | None = None,
@@ -260,12 +276,14 @@ def list_resource_pools(
 
 
 @mcp.tool()
+@guard_tool("get_resource_pool")
 def get_resource_pool(resource_pool: str, vcenter_name: str | None = None) -> str:
     """Get resource pool details."""
     return json_response(vcenter_get(f"/api/vcenter/resource-pool/{path_id(resource_pool)}", **resolve_vcenter(vcenter_name)))
 
 
 @mcp.tool()
+@guard_tool("list_vms")
 def list_vms(
     vcenter_name: str | None = None,
     vms: str | None = None,
@@ -292,6 +310,7 @@ def list_vms(
 
 
 @mcp.tool()
+@guard_tool("get_vm")
 def get_vm(vm: str, vcenter_name: str | None = None) -> str:
     """Get VM summary details."""
     return json_response(vcenter_get(f"/api/vcenter/vm/{path_id(vm)}", **resolve_vcenter(vcenter_name)))

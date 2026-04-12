@@ -117,8 +117,7 @@ def _configure_credentials() -> None:
     default_username = input("    Default username [Enter to skip]: ").strip()
     if default_username:
         default_password = getpass.getpass("    Default password: ")
-        default_verify_ssl = input("    Default verify SSL? (yes/no) [no]: ").strip().lower() == "yes"
-        store_vcenter_credentials("default", default_username, default_password, default_verify_ssl)
+        store_vcenter_credentials("default", default_username, default_password)
         _ok("Stored default vCenter credentials")
 
     for entry in vcenters:
@@ -130,8 +129,7 @@ def _configure_credentials() -> None:
             _warn("      Username is required to store an override.")
             continue
         password = getpass.getpass("      Password: ")
-        verify_ssl = input("      Verify SSL? (yes/no) [no]: ").strip().lower() == "yes"
-        store_vcenter_credentials(entry["name"], username, password, verify_ssl)
+        store_vcenter_credentials(entry["name"], username, password)
         _ok(f"Stored credentials for {entry['name']}")
 
 

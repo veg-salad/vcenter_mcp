@@ -9,6 +9,8 @@ from typing import Any
 import requests
 import urllib3
 
+from vcenter_mcp.security import enforce_request_policy, get_active_request_timeout
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 _TIMEOUT_SECONDS = 30
@@ -47,7 +49,7 @@ def create_session(*, host: str, username: str, password: str, verify_ssl: bool)
             auth=(username, password),
             headers={"Accept": "application/json"},
             verify=verify_ssl,
-            timeout=_TIMEOUT_SECONDS,
+            timeout=get_active_request_timeout(_TIMEOUT_SECONDS),
         )
         response.raise_for_status()
     except requests.exceptions.SSLError as exc:
@@ -58,8 +60,7 @@ def create_session(*, host: str, username: str, password: str, verify_ssl: bool)
         raise VCenterClientError(f"Cannot connect to {host}:{_HTTPS_PORT}. Verify the vCenter host is reachable.") from exc
     except requests.exceptions.HTTPError as exc:
         status = exc.response.status_code if exc.response is not None else "unknown"
-        body = exc.response.text if exc.response is not None else ""
-        raise VCenterClientError(f"Session creation failed with HTTP {status}: {body}") from exc
+        raise VCenterClientError(f"Session creation failed with HTTP {status}.") from exc
 
     token = response.json()
     with _LOCK:
@@ -79,8 +80,7 @@ def vcenter_request(
     verify_ssl: bool,
 ) -> Any:
     """Issue a read-only request against the vCenter API."""
-    if method not in {"GET", "POST"}:
-        raise ValueError("Only GET and safe read-only POST action endpoints are supported.")
+    enforce_request_policy(method, path, params)
 
     token = create_session(
         host=host,
@@ -97,7 +97,7 @@ def vcenter_request(
         "params": request_params,
         "json": json_body,
         "verify": verify_ssl,
-        "timeout": _TIMEOUT_SECONDS,
+        "timeout": get_active_request_timeout(_TIMEOUT_SECONDS),
     }
 
     try:
@@ -121,8 +121,7 @@ def vcenter_request(
         raise VCenterClientError(f"Connection error while calling {path} on {host}:{_HTTPS_PORT}.") from exc
     except requests.exceptions.HTTPError as exc:
         status = exc.response.status_code if exc.response is not None else "unknown"
-        body = exc.response.text if exc.response is not None else ""
-        raise VCenterClientError(f"HTTP {status} from vCenter API for {path}: {body}") from exc
+        raise VCenterClientError(f"HTTP {status} from vCenter API for {path}.") from exc
 
     if response.status_code == 204 or not response.text:
         return {"status": response.status_code}
@@ -140,4 +139,7 @@ def vcenter_post_readonly(
     params: Mapping[str, Any] | None = None,
     **connection: Any,
 ) -> Any:
-    return vcenter_request("POST", path, params=params, json_body=json_body, **connection)
+    raise VCenterClientError(
+        "POST operations are disabled by security policy. "
+        "Use a reviewed, explicit tool implementation for any future exception."
+    )
