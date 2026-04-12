@@ -155,8 +155,7 @@ vcenter-mcp/
             │                           get_vm_boot, get_vm_cpu, get_vm_memory,
             │                           list_vm_disks, get_vm_disk,
             │                           list_vm_nics, get_vm_nic
-            └── appliance.py            get_appliance_version, get_appliance_time,
-                                        get_appliance_time
+            └── appliance.py            get_appliance_version, get_appliance_time
 ```
 
 See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/available_tools.md) for the full tool reference including parameters, return values, and source modules.
