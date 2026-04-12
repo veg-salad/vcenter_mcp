@@ -157,7 +157,7 @@ vcenter-mcp/
                                         get_appliance_time
 ```
 
-See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/available_tools.md) for the full tool reference including parameters, return values, and source modules.
+See [available_tools.md](available_tools.md) for the full tool reference including parameters, return values, and source modules.
 
 ## Notes
 
@@ -172,7 +172,7 @@ See [available_tools.md](https://github.com/veg-salad/vcenter_mcp/blob/main/avai
 
 ## Security
 
-See `SECURITY_POSTURE.md` for current security controls, hardening behavior, and operational cautions.
+See [SECURITY_POSTURE.md](SECURITY_POSTURE.md) for current security controls, hardening behavior, and operational cautions.
 
 ## Disclaimer
 
